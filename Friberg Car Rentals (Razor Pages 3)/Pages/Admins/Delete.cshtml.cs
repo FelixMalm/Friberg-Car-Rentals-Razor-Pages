@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Friberg_Car_Rentals__Razor_Pages_.Data;
 using Friberg_Car_Rentals__Razor_Pages_3_.Data;
+using Friberg_Car_Rentals__Razor_Pages_3_.Repository;
 
 namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Admins
 {
     public class DeleteModel : PageModel
     {
-        private readonly Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context _context;
+        private readonly IAdmin adminRep;
 
-        public DeleteModel(Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context context)
+        public DeleteModel(IAdmin adminRep)
         {
-            _context = context;
+            this.adminRep = adminRep;
         }
 
         [BindProperty]
@@ -29,7 +30,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Admins
                 return NotFound();
             }
 
-            var admin = await _context.Admin.FirstOrDefaultAsync(m => m.Id == id);
+            var admin = adminRep.GetById(id.Value);
 
             if (admin == null)
             {
@@ -49,12 +50,11 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Admins
                 return NotFound();
             }
 
-            var admin = await _context.Admin.FindAsync(id);
+            var admin = adminRep.GetById(id.Value);
             if (admin != null)
             {
                 Admin = admin;
-                _context.Admin.Remove(Admin);
-                await _context.SaveChangesAsync();
+                adminRep.Delete(Admin);
             }
 
             return RedirectToPage("./Index");

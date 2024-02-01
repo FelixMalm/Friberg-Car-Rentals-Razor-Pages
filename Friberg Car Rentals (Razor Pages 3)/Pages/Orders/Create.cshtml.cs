@@ -7,36 +7,51 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Friberg_Car_Rentals__Razor_Pages_.Data;
 using Friberg_Car_Rentals__Razor_Pages_3_.Data;
+using Friberg_Car_Rentals__Razor_Pages_3_.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Orders
 {
     public class CreateModel : PageModel
     {
-        private readonly Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context _context;
-
-        public CreateModel(Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context context)
-        {
-            _context = context;
-        }
-
-        public IActionResult OnGet()
-        {
-            return Page();
-        }
+        private readonly IOrder orderRep;
+        private readonly ICar carRep;
+        private readonly ICustomer customerRep;
 
         [BindProperty]
-        public Order Order { get; set; } = default!;
+        public Order Order { get; set; }
+        public SelectList CarOptions { get; set; }
+        public SelectList CustomerOptions { get; set; }
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public CreateModel(IOrder orderRep, ICar carRep, ICustomer customerRep)
         {
-            if (!ModelState.IsValid)
+            this.orderRep = orderRep;
+            this.carRep = carRep;
+            this.customerRep = customerRep;
+        }
+
+        public void OnGet()
+        {
+            var cars = carRep.GetAll().ToList();
+            CarOptions = new SelectList(cars, "Id", "Model" , "Price");
+
+            var customers = customerRep.GetAll().ToList();
+            CustomerOptions = new SelectList(customers, "Id", "FirstName", "LastName");
+        }
+
+        public IActionResult OnPost()
+        {
+            try
             {
-                return Page();
+                Order.Customer = customerRep.GetById(Order.Customer.Id);
+                Order.Car = carRep.GetById(Order.Car.Id);
+            }
+            catch (Exception ex)
+            {
+
             }
 
-            _context.Order.Add(Order);
-            await _context.SaveChangesAsync();
+            orderRep.Add(Order);
 
             return RedirectToPage("./Index");
         }

@@ -8,16 +8,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Friberg_Car_Rentals__Razor_Pages_.Data;
 using Friberg_Car_Rentals__Razor_Pages_3_.Data;
+using Friberg_Car_Rentals__Razor_Pages_3_.Repository;
 
 namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Customers
 {
     public class EditModel : PageModel
     {
-        private readonly Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context _context;
+        private readonly ICustomer customerRep;
 
-        public EditModel(Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context context)
+        public EditModel(ICustomer customerRep)
         {
-            _context = context;
+            this.customerRep = customerRep;
         }
 
         [BindProperty]
@@ -30,7 +31,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Customers
                 return NotFound();
             }
 
-            var customer =  await _context.Customer.FirstOrDefaultAsync(m => m.Id == id);
+            var customer = customerRep.GetById(id.Value);
             if (customer == null)
             {
                 return NotFound();
@@ -39,8 +40,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Customers
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -48,11 +48,9 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Customers
                 return Page();
             }
 
-            _context.Attach(Customer).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                customerRep.Update(Customer);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -71,7 +69,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Customers
 
         private bool CustomerExists(int id)
         {
-            return _context.Customer.Any(e => e.Id == id);
+            return customerRep.CustomerExists(id);
         }
     }
 }

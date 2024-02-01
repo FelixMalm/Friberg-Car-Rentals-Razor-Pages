@@ -7,16 +7,17 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Friberg_Car_Rentals__Razor_Pages_.Data;
 using Friberg_Car_Rentals__Razor_Pages_3_.Data;
+using Friberg_Car_Rentals__Razor_Pages_3_.Repository;
 
 namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Customers
 {
     public class CreateModel : PageModel
     {
-        private readonly Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context _context;
+        private readonly ICustomer customerRep;
 
-        public CreateModel(Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context context)
+        public CreateModel(ICustomer customerRep)
         {
-            _context = context;
+            this.customerRep = customerRep;
         }
 
         public IActionResult OnGet()
@@ -35,8 +36,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Customers
                 return Page();
             }
 
-            _context.Customer.Add(Customer);
-            await _context.SaveChangesAsync();
+            customerRep.Add(Customer);
 
             return RedirectToPage("./Index");
         }

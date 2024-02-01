@@ -5,12 +5,10 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class="main">Register a new car</h1>
 
-<h4>Car</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div>
+    <div>
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -19,9 +17,9 @@
                 <span asp-validation-for="Car.Model" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Car.price" class="control-label"></label>
-                <input asp-for="Car.price" class="form-control" />
-                <span asp-validation-for="Car.price" class="text-danger"></span>
+                <label asp-for="Car.Price" class="control-label"></label>
+                <input asp-for="Car.Price" class="form-control" />
+                <span asp-validation-for="Car.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Car.Picture" class="control-label"></label>
@@ -35,7 +33,7 @@
     </div>
 </div>
 
-<div>
+<div class="CenterText">
     <a asp-page="Index">Back to List</a>
 </div>
 

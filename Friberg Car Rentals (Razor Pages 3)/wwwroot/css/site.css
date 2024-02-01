@@ -12,6 +12,10 @@ body {
     margin-bottom: 60px;
 }
 
+.text-danger{
+    color: red;
+}
+
 h1 {
     text-align: center;
 }
@@ -80,4 +84,14 @@ tr:nth-child(even) {
     max-height: 25%; /* Set the maximum height to 100% of the parent container */
     width: auto; /* Ensure that the image maintains its aspect ratio */
     height: auto; /* Ensure that the image maintains its aspect ratio */
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 50px; /* Adjust as per your footer height */
+    line-height: 50px; /* Align text vertically */
+    background-color: #f5f5f5; /* Adjust as per your styling */
+    text-align: center;
 }

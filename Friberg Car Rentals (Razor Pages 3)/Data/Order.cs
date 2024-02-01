@@ -5,5 +5,7 @@
         public int Id { get; set; }
         public Car Car { get; set; }
         public Customer Customer { get; set; }
+        public DateTime RentalStartDate { get; set; }
+        public DateTime RentalEndDate { get; set; }
     }
 }

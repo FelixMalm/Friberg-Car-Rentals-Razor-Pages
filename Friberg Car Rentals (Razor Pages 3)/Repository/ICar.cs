@@ -10,5 +10,6 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Repository
         void Add(Car car);
         void Update(Car car);
         void Delete(Car car);
+        bool CarExists(int id);
     }
 }

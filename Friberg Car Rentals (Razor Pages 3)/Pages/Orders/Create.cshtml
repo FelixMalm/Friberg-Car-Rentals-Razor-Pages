@@ -5,14 +5,31 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1 class="main">New Order</h1>
 
-<h4>Order</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
+<div>
+    <div>
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Order.Car.Id">Select Car:</label>
+                <select class="form-control" asp-for="Order.Car.Id" asp-items="Model.CarOptions"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Order.Customer.Id">Select Customer:</label>               
+                <select class="form-control" asp-for="Order.Customer.Id" asp-items="Model.CustomerOptions"></select>
+            </div>
+
+            <div class="form-group">
+                <label for="rentalStartDate">Rental Start Date:</label>
+                <input type="datetime-local" id="rentalStartDate" name="rentalStartDate" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="rentalEndDate">Rental End Date:</label>
+                <input type="datetime-local" id="rentalEndDate" name="rentalEndDate" class="form-control" />
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -20,7 +37,7 @@
     </div>
 </div>
 
-<div>
+<div class="CenterText">
     <a asp-page="Index">Back to List</a>
 </div>
 

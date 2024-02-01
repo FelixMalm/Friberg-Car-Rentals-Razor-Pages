@@ -5,11 +5,12 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="main">Cars</h1>
 
-<p>
+<p class="CenterText">
     <a asp-page="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -17,10 +18,10 @@
                 @Html.DisplayNameFor(model => model.Car[0].Model)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Car[0].price)
+                @Html.DisplayNameFor(model => model.Car[0].Price)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Car[0].Picture)
+                Picture
             </th>
             <th></th>
         </tr>
@@ -32,10 +33,17 @@
                 @Html.DisplayFor(modelItem => item.Model)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.price)
+                @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Picture)
+                @if (!string.IsNullOrEmpty(item.Picture))
+                {
+                    <img src="@item.Picture" alt="Car Picture" style="max-width: 100px; max-height: 100px;" />
+                }
+                else
+                {
+                    <p>No picture available</p>
+                }
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |

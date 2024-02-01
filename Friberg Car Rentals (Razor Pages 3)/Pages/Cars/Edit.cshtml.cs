@@ -8,16 +8,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Friberg_Car_Rentals__Razor_Pages_.Data;
 using Friberg_Car_Rentals__Razor_Pages_3_.Data;
+using Friberg_Car_Rentals__Razor_Pages_3_.Repository;
 
 namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Cars
 {
     public class EditModel : PageModel
     {
-        private readonly Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context _context;
+        private readonly ICar carRep;
 
-        public EditModel(Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context context)
+        public EditModel(ICar carRep)
         {
-            _context = context;
+            this.carRep = carRep;
         }
 
         [BindProperty]
@@ -30,7 +31,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Cars
                 return NotFound();
             }
 
-            var car =  await _context.Car.FirstOrDefaultAsync(m => m.Id == id);
+            var car = carRep.GetById(id.Value);
             if (car == null)
             {
                 return NotFound();
@@ -39,8 +40,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Cars
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
+        
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -48,11 +48,9 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Cars
                 return Page();
             }
 
-            _context.Attach(Car).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                carRep.Update(Car);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -71,7 +69,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Cars
 
         private bool CarExists(int id)
         {
-            return _context.Car.Any(e => e.Id == id);
+            return carRep.CarExists(id);
         }
     }
 }

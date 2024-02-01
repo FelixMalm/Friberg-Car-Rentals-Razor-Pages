@@ -5,20 +5,26 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1 class="main">Orders</h1>
 
-<p>
+<p class="CenterText">
     <a asp-page="Create">Create New</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
-            <th></th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Model</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Order) {
+@foreach (var item in Model.Orders) {
         <tr>
+                <td>@item.Id</td>
+                <td>@item.Customer.FirstName</td>
+                <td>@item.Car.Model</td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |

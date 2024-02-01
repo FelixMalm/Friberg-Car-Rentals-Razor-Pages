@@ -8,16 +8,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Friberg_Car_Rentals__Razor_Pages_.Data;
 using Friberg_Car_Rentals__Razor_Pages_3_.Data;
+using Friberg_Car_Rentals__Razor_Pages_3_.Repository;
 
 namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Admins
 {
     public class EditModel : PageModel
     {
-        private readonly Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context _context;
+        private readonly IAdmin adminRep;
 
-        public EditModel(Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context context)
+        public EditModel(IAdmin adminRep)
         {
-            _context = context;
+            this.adminRep = adminRep;
         }
 
         [BindProperty]
@@ -30,7 +31,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Admins
                 return NotFound();
             }
 
-            var admin =  await _context.Admin.FirstOrDefaultAsync(m => m.Id == id);
+            var admin = adminRep.GetById(id.Value);
             if (admin == null)
             {
                 return NotFound();
@@ -39,8 +40,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Admins
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -48,15 +48,13 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Admins
                 return Page();
             }
 
-            _context.Attach(Admin).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                adminRep.Update(Admin);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AdminExists(Admin.Id))
+                if (!AdminExist(Admin.Id))
                 {
                     return NotFound();
                 }
@@ -69,9 +67,9 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Admins
             return RedirectToPage("./Index");
         }
 
-        private bool AdminExists(int id)
+        private bool AdminExist(int id)
         {
-            return _context.Admin.Any(e => e.Id == id);
+            return adminRep.AdminExist(id);
         }
     }
 }

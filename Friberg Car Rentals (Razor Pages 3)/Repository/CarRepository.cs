@@ -46,6 +46,11 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Repository
             applicationDbContext.SaveChanges();
         }
 
+        public bool CarExists(int id)
+        {
+            return applicationDbContext.Car.Any(car => car.Id == id);
+        }
+
         /*public async override Task<IEnumerable<Car>> GetAllAsync()
         {
             return await applicationDbContext.Car.ToListAsync();

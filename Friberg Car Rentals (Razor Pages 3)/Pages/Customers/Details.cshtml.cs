@@ -7,18 +7,20 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Friberg_Car_Rentals__Razor_Pages_.Data;
 using Friberg_Car_Rentals__Razor_Pages_3_.Data;
+using Friberg_Car_Rentals__Razor_Pages_3_.Repository;
 
 namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Customers
 {
     public class DetailsModel : PageModel
     {
-        private readonly Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context _context;
+        private readonly ICustomer customerRep;
 
-        public DetailsModel(Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context context)
+        public DetailsModel(ICustomer customerRep)
         {
-            _context = context;
+            this.customerRep = customerRep;
         }
 
+        [BindProperty]
         public Customer Customer { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -28,7 +30,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Customers
                 return NotFound();
             }
 
-            var customer = await _context.Customer.FirstOrDefaultAsync(m => m.Id == id);
+            var customer = customerRep.GetById(id.Value);
             if (customer == null)
             {
                 return NotFound();

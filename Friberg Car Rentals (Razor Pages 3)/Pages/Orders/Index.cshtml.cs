@@ -7,23 +7,24 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Friberg_Car_Rentals__Razor_Pages_.Data;
 using Friberg_Car_Rentals__Razor_Pages_3_.Data;
+using Friberg_Car_Rentals__Razor_Pages_3_.Repository;
 
 namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Orders
 {
     public class IndexModel : PageModel
     {
-        private readonly Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context _context;
+        private readonly IOrder orderRep;
 
-        public IndexModel(Friberg_Car_Rentals__Razor_Pages_3_.Data.Friberg_Car_Rentals__Razor_Pages_3_Context context)
+        public IndexModel(IOrder orderRep)
         {
-            _context = context;
+            this.orderRep = orderRep;
         }
 
-        public IList<Order> Order { get;set; } = default!;
+        public IList<Order> Orders { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public void OnGet()
         {
-            Order = await _context.Order.ToListAsync();
+            Orders = orderRep.GetAll().ToList();
         }
     }
 }
