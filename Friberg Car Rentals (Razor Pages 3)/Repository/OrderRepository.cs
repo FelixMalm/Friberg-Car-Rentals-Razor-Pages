@@ -56,8 +56,23 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Repository
             return applicationDbContext.Order.ToList();
         }
 
+        public bool IsCarAvailableForOrder(int carId, DateTime rentalStartDate, DateTime rentalEndDate)
+        {
+            // Check if there are any orders for the given car that overlap with the specified rental period
+            return !applicationDbContext.Order.Any(order =>
+                order.Car.Id == carId &&
+                ((rentalStartDate >= order.RentalStartDate && rentalStartDate < order.RentalEndDate) ||
+                 (rentalEndDate > order.RentalStartDate && rentalEndDate <= order.RentalEndDate) ||
+                 (rentalStartDate <= order.RentalStartDate && rentalEndDate >= order.RentalEndDate)));
+        }
+
         public void AddOrder(Order order)
         {
+            if (!IsCarAvailableForOrder(order.Car.Id, order.RentalStartDate, order.RentalEndDate))
+            {
+                throw new InvalidOperationException("The selected car is not available for the specified rental period.");
+            }
+
             applicationDbContext.Order.Add(order);
             applicationDbContext.SaveChanges();
         }

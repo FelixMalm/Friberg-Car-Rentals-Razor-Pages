@@ -12,5 +12,6 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Repository
         bool OrderExists(int id);
         List<Order> GetOrders();
         void AddOrder(Order order);
+        bool IsCarAvailableForOrder(int carId, DateTime rentalStartDate, DateTime rentalEndDate);
     }
 }

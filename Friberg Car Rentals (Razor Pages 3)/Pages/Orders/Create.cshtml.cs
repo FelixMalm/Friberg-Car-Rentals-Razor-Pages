@@ -43,12 +43,28 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Orders
         {
             try
             {
+                string rentalStartDateString = Request.Form["rentalStartDate"];
+                string rentalEndDateString = Request.Form["rentalEndDate"];
+
+                DateTime.TryParse(rentalStartDateString, out DateTime rentalStartDate);
+                DateTime.TryParse(rentalEndDateString, out DateTime rentalEndDate);
+
                 Order.Customer = customerRep.GetById(Order.Customer.Id);
                 Order.Car = carRep.GetById(Order.Car.Id);
+                Order.RentalStartDate = rentalStartDate;
+                Order.RentalEndDate = rentalEndDate;
+
+                if (!orderRep.IsCarAvailableForOrder(Order.Car.Id, Order.RentalStartDate, Order.RentalEndDate))
+                {
+                    ModelState.AddModelError(string.Empty, "The selected car is not available for the specified rental period.");
+                    ModelState.AddModelError(string.Empty, "Go back to list to make a new order. ");
+                    return RedirectToPage("./Index");
+                }
             }
             catch (Exception ex)
             {
-
+                ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
+                return Page();
             }
 
             orderRep.Add(Order);
