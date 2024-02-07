@@ -16,3 +16,4 @@ namespace Friberg_Car_Rentals__Razor_Pages_.Data
         public string Role { get; set; }
     }
 }
+ 

@@ -43,6 +43,7 @@
                         <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
                         <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                     }
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
@@ -61,15 +62,31 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Orders.Where(order => order.RentalEndDate < DateTime.Today))
+        @if (userRole == "Admin")
         {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Customer.FirstName</td>
-                <td>@item.Car.Model</td>
-                <td>@item.RentalStartDate.ToString("yyyy-MM-dd")</td>
-                <td>@item.RentalEndDate.ToString("yyyy-MM-dd")</td>
-            </tr>
+            @foreach (var item in Model.Orders.Where(order => userRole == "Admin" || order.Customer.Id == customerId))
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Customer.FirstName</td>
+                    <td>@item.Car.Model</td>
+                    <td>@item.RentalStartDate.ToString("yyyy-MM-dd")</td>
+                    <td>@item.RentalEndDate.ToString("yyyy-MM-dd")</td>
+                </tr>
+            }
+        }
+        else if (userRole == "User")
+        {
+            @foreach (var item in Model.Orders.Where(order => order.RentalEndDate < DateTime.Today || order.Customer.Id == customerId))
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Customer.FirstName</td>
+                    <td>@item.Car.Model</td>
+                    <td>@item.RentalStartDate.ToString("yyyy-MM-dd")</td>
+                    <td>@item.RentalEndDate.ToString("yyyy-MM-dd")</td>
+                </tr>
+            }
         }
     </tbody>
 </table>

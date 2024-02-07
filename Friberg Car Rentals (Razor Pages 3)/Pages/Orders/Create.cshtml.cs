@@ -16,6 +16,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Orders
     {
         private readonly IOrder orderRep;
         private readonly ICar carRep;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ICustomer customerRep;
 
         [BindProperty]
@@ -23,11 +24,12 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Orders
         public SelectList CarOptions { get; set; }
         public SelectList CustomerOptions { get; set; }
 
-        public CreateModel(IOrder orderRep, ICar carRep, ICustomer customerRep)
+        public CreateModel(IOrder orderRep, ICar carRep, ICustomer customerRep, IHttpContextAccessor httpContextAccessor)
         {
             this.orderRep = orderRep;
             this.carRep = carRep;
             this.customerRep = customerRep;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public void OnGet()
@@ -35,8 +37,8 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Orders
             var cars = carRep.GetAll().ToList();
             CarOptions = new SelectList(cars, "Id", "Model" , "Price");
 
-            var customers = customerRep.GetAll().Where(c => c.Role != "Admin").ToList();
-            CustomerOptions = new SelectList(customers, "Id", "FirstName", "LastName");
+            //var customers = customerRep.GetAll().Where(c => c.Role != "Admin").ToList();
+            //CustomerOptions = new SelectList(customers, "Id", "FirstName", "LastName");
         }
 
         public IActionResult OnPost()
@@ -49,7 +51,10 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Orders
                 DateTime.TryParse(rentalStartDateString, out DateTime rentalStartDate);
                 DateTime.TryParse(rentalEndDateString, out DateTime rentalEndDate);
 
-                Order.Customer = customerRep.GetById(Order.Customer.Id);
+                var customerIdString = _httpContextAccessor.HttpContext.Session.GetString("CustomerId");
+                int customerId = int.Parse(customerIdString);
+
+                Order.Customer = customerRep.GetById(customerId);
                 Order.Car = carRep.GetById(Order.Car.Id);
                 Order.RentalStartDate = rentalStartDate;
                 Order.RentalEndDate = rentalEndDate;
