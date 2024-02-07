@@ -7,8 +7,8 @@ cadet-gray: #99A4ADff;*/
 body {
     font-family: Sans-Serif;
     background-color: white;
-    margin: 0; /* Add this line to remove default margin */
-    padding: 0; /* Add this line to remove default padding */
+    margin: 0; 
+    padding: 0; 
     margin-bottom: 60px;
 }
 
@@ -50,18 +50,18 @@ tr:nth-child(even) {
     width: 50%;
     text-align: center;
 }
-/* The navigation bar */
+
 .navbar {
     overflow: hidden;
     background-color: #EC4D15;
-    position: fixed; /* Set the navbar to fixed position */
-    top: 0; /* Position the navbar at the top of the page */
-    width: 100%; /* Full width */
-    display: flex; /* Make it a flex container */
-    justify-content: center; /* Center its children horizontally */
+    position: fixed; 
+    top: 0; 
+    width: 100%;
+    display: flex; 
+    justify-content: center; 
 }
 
-    /* Links inside the navbar */
+    
     .navbar a {
         display: block;
         color: #FEFFFF;
@@ -70,30 +70,30 @@ tr:nth-child(even) {
         text-decoration: none;
     }
 
-        /* Change background on mouse-over */
+       
         .navbar a:hover {
             background: #F4A615;
             color: #FEFFFF;
         }
 
-/* Main content */
+
 .main {
-    margin-top: 60px; /* Add a top margin to avoid content overlay */
+    margin-top: 60px; 
 }
 
 .Logo-Image {
-    max-width: 25%; /* Set the maximum width to 100% of the parent container */
-    max-height: 25%; /* Set the maximum height to 100% of the parent container */
-    width: auto; /* Ensure that the image maintains its aspect ratio */
-    height: auto; /* Ensure that the image maintains its aspect ratio */
+    max-width: 25%;
+    max-height: 25%; 
+    width: auto; 
+    height: auto; 
 }
 
 .footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 50px; /* Adjust as per your footer height */
-    line-height: 50px; /* Align text vertically */
-    background-color: #f5f5f5; /* Adjust as per your styling */
+    height: 50px; 
+    line-height: 50px; 
+    background-color: #f5f5f5; 
     text-align: center;
 }

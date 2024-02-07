@@ -27,7 +27,6 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Account
 
             if (!ModelState.IsValid)
             {
-                // Return the current page with validation errors
                 return;
             }
 
