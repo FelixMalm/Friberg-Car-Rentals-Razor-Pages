@@ -2,7 +2,9 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
+    var userRole = TempData["UserRole"] as string;
 }
+
 <body>
     <div class="main">
         <div class="CenterText">
@@ -11,3 +13,17 @@
         </div>
     </div>
 </body>
+
+@if (HttpContext.Session.GetString("UserRole") == "Admin")
+{
+    <h1>Welcome, Admin!</h1>
+}
+else if (HttpContext.Session.GetString("UserRole") == "User")
+{
+    <h1>Welcome, User!</h1>
+}
+else
+{
+}
+
+

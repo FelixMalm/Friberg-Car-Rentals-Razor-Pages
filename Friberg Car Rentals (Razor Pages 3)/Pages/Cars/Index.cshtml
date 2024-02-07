@@ -2,14 +2,18 @@
 @model Friberg_Car_Rentals__Razor_Pages_3_.Pages.Cars.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    var httpContext = ViewContext.HttpContext;
+    var userRole = httpContext.Session.GetString("UserRole");
 }
 
 <h1 class="main">Cars</h1>
 
-<p class="CenterText">
-    <a asp-page="Create">Create New</a>
-</p>
+@if (userRole == "Admin")
+{
+    <p class="CenterText">
+        <a asp-page="Create">Create New</a>
+    </p>
+}
 
 <table class="table">
     <thead>
@@ -46,9 +50,12 @@
                 }
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    @if (userRole == "Admin")
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    }
             </td>
         </tr>
 }

@@ -4,6 +4,7 @@ using Friberg_Car_Rentals__Razor_Pages_3_.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Friberg_Car_Rentals__Razor_Pages_3_.Migrations
 {
     [DbContext(typeof(Friberg_Car_Rentals__Razor_Pages_3_Context))]
-    partial class Friberg_Car_Rentals__Razor_Pages_3_ContextModelSnapshot : ModelSnapshot
+    [Migration("20240205144914_Customer Username and password")]
+    partial class CustomerUsernameandpassword
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,10 +89,6 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -112,9 +111,6 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Migrations
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsExpired")
-                        .HasColumnType("bit");
 
                     b.Property<DateTime>("RentalEndDate")
                         .HasColumnType("datetime2");

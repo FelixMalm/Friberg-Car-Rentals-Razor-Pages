@@ -10,5 +10,6 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Repository
         void Update(Customer customer);
         void Delete(Customer customer);
         bool CustomerExists(int id);
+        Customer GetCustomerByUsername(string username);
     }
 }

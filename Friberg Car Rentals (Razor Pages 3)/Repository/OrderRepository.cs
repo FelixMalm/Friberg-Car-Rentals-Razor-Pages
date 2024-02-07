@@ -1,5 +1,6 @@
 ﻿using Friberg_Car_Rentals__Razor_Pages_.Data;
 using Friberg_Car_Rentals__Razor_Pages_3_.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 namespace Friberg_Car_Rentals__Razor_Pages_3_.Repository
@@ -13,7 +14,6 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Repository
             this.applicationDbContext = applicationDbContext;
         }
 
-        //public List<Order> Orders { get; set; }
         public void Add(Order order)
         {
             applicationDbContext.Order.Add(order);
@@ -58,7 +58,6 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Repository
 
         public bool IsCarAvailableForOrder(int carId, DateTime rentalStartDate, DateTime rentalEndDate)
         {
-            // Check if there are any orders for the given car that overlap with the specified rental period
             return !applicationDbContext.Order.Any(order =>
                 order.Car.Id == carId &&
                 ((rentalStartDate >= order.RentalStartDate && rentalStartDate < order.RentalEndDate) ||

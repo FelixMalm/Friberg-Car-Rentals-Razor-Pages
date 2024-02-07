@@ -23,7 +23,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Customers
         public IList<Customer> Customer { get; set; } = default!;
         public async Task OnGetAsync()
         {
-            Customer = customerRep.GetAll().ToList<Customer>();
+            Customer = customerRep.GetAll().Where(c => c.Role == "User").ToList();
         }
     }
 }

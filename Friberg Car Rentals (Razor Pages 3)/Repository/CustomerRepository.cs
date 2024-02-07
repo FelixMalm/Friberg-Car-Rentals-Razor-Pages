@@ -1,5 +1,6 @@
 ﻿using Friberg_Car_Rentals__Razor_Pages_.Data;
 using Friberg_Car_Rentals__Razor_Pages_3_.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Friberg_Car_Rentals__Razor_Pages_3_.Repository
 {
@@ -42,6 +43,11 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Repository
         {
             applicationDbContext.Update(customer);
             applicationDbContext.SaveChanges();
+        }
+
+        public Customer GetCustomerByUsername(string username)
+        {
+            return applicationDbContext.Customer.FirstOrDefault(c => c.Username == username);
         }
     }
 }

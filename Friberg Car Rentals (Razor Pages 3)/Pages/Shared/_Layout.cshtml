@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var httpContext = ViewContext.HttpContext;
+    var userRole = httpContext.Session.GetString("UserRole");
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -7,18 +12,34 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Friberg_Car_Rentals__Razor_Pages_3_.styles.css" asp-append-version="true" />
 </head>
+
 <body>
     <header>
         <nav>
             <div>
-
                 <div class ="navbar">
+                    @if (userRole == "Admin")
+                    {
                         <a asp-area="Home" asp-page="/Index">Home</a>
-                        <a asp-area="Login" asp-page="Account/Login">Login</a>
                         <a asp-area="Cars" asp-page="/Cars/Index">Cars</a>
                         <a asp-area="Customer" asp-page="/Customers/Index">Customers</a>
                         <a asp-area="Order" asp-page="/Orders/Index">Orders</a>
                         <a asp-area="Admin" asp-page="/Admins/Index">Admins</a>
+                        <a asp-area="Logout" asp-page="/Account/Logout">Logout</a>
+                    }
+                    else if (userRole == "User")
+                    {
+                        <a asp-area="Home" asp-page="/Index">Home</a>
+                        <a asp-area="Cars" asp-page="/Cars/Index">Cars</a>
+                        <a asp-area="Order" asp-page="/Orders/Index">Orders</a>
+                        <a asp-area="Logout" asp-page="/Account/Logout">Logout</a>
+                    }
+                    else
+                    {
+                        <a asp-area="Home" asp-page="/Index">Home</a>
+                        <a asp-area="Cars" asp-page="/Cars/Index">Cars</a>
+                        <a asp-area="Login" asp-page="/Account/Login">Login</a>
+                    }
                 </div>
             </div>
         </nav>

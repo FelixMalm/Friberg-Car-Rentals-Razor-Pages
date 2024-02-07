@@ -35,7 +35,7 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Orders
             var cars = carRep.GetAll().ToList();
             CarOptions = new SelectList(cars, "Id", "Model" , "Price");
 
-            var customers = customerRep.GetAll().ToList();
+            var customers = customerRep.GetAll().Where(c => c.Role != "Admin").ToList();
             CustomerOptions = new SelectList(customers, "Id", "FirstName", "LastName");
         }
 

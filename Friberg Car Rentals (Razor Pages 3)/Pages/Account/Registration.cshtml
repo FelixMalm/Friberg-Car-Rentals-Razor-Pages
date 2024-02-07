@@ -2,3 +2,24 @@
 @model Friberg_Car_Rentals__Razor_Pages_3_.Pages.Account.RegistrationModel
 @{
 }
+
+<h1 class="main">Register</h1>
+<form class="CenterText" method="post">
+    <div>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" />
+    </div>
+    <div>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" />
+    </div>
+    <div>
+        <label for="newUsername">New Username:</label>
+        <input type="text" id="newUsername" name="newUsername" />
+    </div>
+    <div>
+        <label for="newPassword">New Password:</label>
+        <input type="password" id="newPassword" name="newPassword" />
+    </div>
+    <button type="submit">Register</button>
+</form>

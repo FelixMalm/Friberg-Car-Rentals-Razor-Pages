@@ -7,5 +7,6 @@
         public Customer Customer { get; set; }
         public DateTime RentalStartDate { get; set; }
         public DateTime RentalEndDate { get; set; }
+        public bool IsExpired { get; set; }
     }
 }

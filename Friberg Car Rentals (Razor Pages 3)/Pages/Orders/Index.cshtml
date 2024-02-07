@@ -2,14 +2,20 @@
 @model Friberg_Car_Rentals__Razor_Pages_3_.Pages.Orders.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    var httpContext = ViewContext.HttpContext;
+    var userRole = httpContext.Session.GetString("UserRole");
+    var customerIdString = httpContext.Session.GetString("CustomerId");
+    int customerId = int.Parse(customerIdString);
 }
 
 <h1 class="main">Orders</h1>
 
-<p class="CenterText">
-    <a asp-page="Create">Create New</a>
-</p>
+@if (userRole == "User")
+{
+    <p class="CenterText">
+        <a asp-page="Create">Create New</a>
+    </p>
+}
 
 <table class="table">
     <thead>
@@ -22,7 +28,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Orders) {
+        @foreach (var item in Model.Orders.Where(order => userRole == "Admin" || order.Customer.Id == customerId))
+        {
         <tr>
                 <td>@item.Id</td>
                 <td>@item.Customer.FirstName</td>
@@ -30,11 +37,39 @@
                 <td>@item.RentalStartDate.ToString("yyyy-MM-dd")</td>
                 <td>@item.RentalEndDate.ToString("yyyy-MM-dd")</td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    @if (userRole == "Admin")
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    }
             </td>
         </tr>
 }
+    </tbody>
+</table>
+
+<h2 class="CenterText">Expired Orders</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Model</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Orders.Where(order => order.RentalEndDate < DateTime.Today))
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Customer.FirstName</td>
+                <td>@item.Car.Model</td>
+                <td>@item.RentalStartDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.RentalEndDate.ToString("yyyy-MM-dd")</td>
+            </tr>
+        }
     </tbody>
 </table>
