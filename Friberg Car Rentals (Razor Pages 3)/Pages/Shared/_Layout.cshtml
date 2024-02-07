@@ -24,7 +24,7 @@
                         <a asp-area="Cars" asp-page="/Cars/Index">Cars</a>
                         <a asp-area="Customer" asp-page="/Customers/Index">Customers</a>
                         <a asp-area="Order" asp-page="/Orders/Index">Orders</a>
-                        <a asp-area="Admin" asp-page="/Admins/Index">Admins</a>
+                        @* <a asp-area="Admin" asp-page="/Admins/Index">Admins</a> *@
                         <a asp-area="Logout" asp-page="/Account/Logout">Logout</a>
                     }
                     else if (userRole == "User")

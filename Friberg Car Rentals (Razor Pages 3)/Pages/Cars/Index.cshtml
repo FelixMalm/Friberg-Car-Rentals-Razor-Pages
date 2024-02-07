@@ -56,6 +56,13 @@
                         <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
                         <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                     }
+                    else if (userRole == "User")
+                    {
+                        <form method="post" asp-page-handler="PlaceOrder">
+                            <input type="hidden" name="carId" value="@item.Id" />
+                            <button type="submit">Order</button>
+                        </form>
+                    }
             </td>
         </tr>
 }

@@ -32,13 +32,13 @@ namespace Friberg_Car_Rentals__Razor_Pages_3_.Pages.Orders
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public void OnGet()
+        public void OnGet(int carId)
         {
+            Order = new Order();
+            Order.Car = carRep.GetById(carId);
+
             var cars = carRep.GetAll().ToList();
             CarOptions = new SelectList(cars, "Id", "Model" , "Price");
-
-            //var customers = customerRep.GetAll().Where(c => c.Role != "Admin").ToList();
-            //CustomerOptions = new SelectList(customers, "Id", "FirstName", "LastName");
         }
 
         public IActionResult OnPost()

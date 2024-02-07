@@ -28,7 +28,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Orders.Where(order => userRole == "Admin" || order.Customer.Id == customerId))
+        @foreach (var item in Model.Orders.Where(order => userRole == "Admin" && order.RentalEndDate >= DateTime.Today || order.Customer.Id == customerId && order.RentalEndDate >= DateTime.Today))
         {
         <tr>
                 <td>@item.Id</td>
@@ -43,7 +43,10 @@
                         <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
                         <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
                     }
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    else if (userRole == "User")
+                    {
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    }
             </td>
         </tr>
 }
@@ -64,7 +67,7 @@
     <tbody>
         @if (userRole == "Admin")
         {
-            @foreach (var item in Model.Orders.Where(order => userRole == "Admin" || order.Customer.Id == customerId))
+            @foreach (var item in Model.Orders.Where(order => order.RentalEndDate < DateTime.Today))
             {
                 <tr>
                     <td>@item.Id</td>
@@ -72,12 +75,17 @@
                     <td>@item.Car.Model</td>
                     <td>@item.RentalStartDate.ToString("yyyy-MM-dd")</td>
                     <td>@item.RentalEndDate.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                        <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
                 </tr>
             }
         }
         else if (userRole == "User")
         {
-            @foreach (var item in Model.Orders.Where(order => order.RentalEndDate < DateTime.Today || order.Customer.Id == customerId))
+            @foreach (var item in Model.Orders.Where(order => order.RentalEndDate < DateTime.Today && order.Customer.Id == customerId))
             {
                 <tr>
                     <td>@item.Id</td>
